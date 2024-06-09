@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AddressApi.Data;
-using DatabaseService.Data;
+using DatabaseApi.Data;
 using Models;
 using Models.DTO;
 using Newtonsoft.Json;
@@ -18,9 +18,9 @@ namespace AddressApi.Controllers
     [ApiController]
     public class AddressesController : ControllerBase
     {
-        private readonly DatabaseServiceContext _context;
+        private readonly DatabaseApiContext _context;
 
-        public AddressesController(DatabaseServiceContext context)
+        public AddressesController(DatabaseApiContext context)
         {
             _context = context;
         }
@@ -35,6 +35,10 @@ namespace AddressApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Address>>> GetAddress()
         {
+            // Using Dapper
+            
+            // Using ADO.NET
+            
             return await _context.Address.ToListAsync();
         }
 

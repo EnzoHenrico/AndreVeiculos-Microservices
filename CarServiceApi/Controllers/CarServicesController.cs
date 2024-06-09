@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarServiceApi.Data;
-using DatabaseService.Data;
+using DatabaseApi.Data;
 using Models;
 
 namespace CarServiceApi.Controllers
@@ -15,9 +15,9 @@ namespace CarServiceApi.Controllers
     [ApiController]
     public class CarServicesController : ControllerBase
     {
-        private readonly DatabaseServiceContext _context;
+        private readonly DatabaseApiContext _context;
 
-        public CarServicesController(DatabaseServiceContext context)
+        public CarServicesController(DatabaseApiContext context)
         {
             _context = context;
         }

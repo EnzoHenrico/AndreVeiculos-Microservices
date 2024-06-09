@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using CarApi.Data;
-using DatabaseService.Data;
+using DatabaseApi.Data;
 
 namespace CarApi;
 
@@ -10,7 +10,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddDbContext<DatabaseServiceContext>(options =>
+        builder.Services.AddDbContext<DatabaseApiContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("CarApiContext") ?? throw new InvalidOperationException("Connection string 'CarApiContext' not found.")));
 
         // Add services to the container.

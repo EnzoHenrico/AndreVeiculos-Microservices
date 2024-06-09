@@ -1,4 +1,4 @@
-using DatabaseService.Data;
+using DatabaseApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PaymentApi.Data;
@@ -9,7 +9,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddDbContext<DatabaseServiceContext>(options =>
+        builder.Services.AddDbContext<DatabaseApiContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("PaymentApiContext") ?? throw new InvalidOperationException("Connection string 'PaymentApiContext' not found.")));
 
         // Add services to the container.

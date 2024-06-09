@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DatabaseService.Data;
+using DatabaseApi.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +15,9 @@ namespace SaleApi.Controllers
     [ApiController]
     public class SalesController : ControllerBase
     {
-        private readonly DatabaseServiceContext _context;
+        private readonly DatabaseApiContext _context;
 
-        public SalesController(DatabaseServiceContext context)
+        public SalesController(DatabaseApiContext context)
         {
             _context = context;
         }

@@ -1,4 +1,4 @@
-using DatabaseService.Data;
+using DatabaseApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 namespace EmployeeApi;
@@ -8,7 +8,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddDbContext<DatabaseServiceContext>(options =>
+        builder.Services.AddDbContext<DatabaseApiContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("EmployeeApiContext") ?? throw new InvalidOperationException("Connection string 'EmployeeApiContext' not found.")));
 
         // Add services to the container.

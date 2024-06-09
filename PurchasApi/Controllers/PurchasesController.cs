@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DatabaseService.Data;
+using DatabaseApi.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +15,9 @@ namespace PurchasApi.Controllers
     [ApiController]
     public class PurchasesController : ControllerBase
     {
-        private readonly DatabaseServiceContext _context;
+        private readonly DatabaseApiContext _context;
 
-        public PurchasesController(DatabaseServiceContext context)
+        public PurchasesController(DatabaseApiContext context)
         {
             _context = context;
         }

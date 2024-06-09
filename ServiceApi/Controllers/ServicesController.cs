@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DatabaseService.Data;
+using DatabaseApi.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +15,9 @@ namespace ServiceApi.Controllers
     [ApiController]
     public class ServicesController : ControllerBase
     {
-        private readonly DatabaseServiceContext _context;
+        private readonly DatabaseApiContext _context;
 
-        public ServicesController(DatabaseServiceContext context)
+        public ServicesController(DatabaseApiContext context)
         {
             _context = context;
         }
