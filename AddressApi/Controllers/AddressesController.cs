@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using AddressApi.Data;
 using DatabaseService.Data;
 using Models;
+using Models.DTO;
+using Newtonsoft.Json;
+using NuGet.Protocol;
 
 namespace AddressApi.Controllers
 {
@@ -15,19 +18,17 @@ namespace AddressApi.Controllers
     [ApiController]
     public class AddressesController : ControllerBase
     {
-        // private readonly AddressApiContext _context;
-        //
-        // public AddressesController(AddressApiContext context)
-        // {
-        //     _context = context;
-        // }
-        
         private readonly DatabaseServiceContext _context;
 
         public AddressesController(DatabaseServiceContext context)
         {
             _context = context;
         }
+
+        private static HttpClient viacepClient = new()
+        {
+            BaseAddress = new Uri("https://viacep.com.br/ws/")
+        };
 
 
         // GET: api/Addresses
@@ -85,12 +86,36 @@ namespace AddressApi.Controllers
         // POST: api/Addresses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Address>> PostAddress(Address address)
+        public async Task<ActionResult<Address>> PostAddress(AddressDTO addressDto)
         {
-            _context.Address.Add(address);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var viacepResponse = await viacepClient.GetAsync($"{addressDto.Zip}/json");
+                var addressData =
+                    JsonConvert.DeserializeObject<ViaCepJsonResponse>(await viacepResponse.Content.ReadAsStringAsync());
 
-            return CreatedAtAction("GetAddress", new { id = address.Id }, address);
+                var addressType = addressData.Logradouro.Split(" ");
+                var addressName = addressData.Logradouro.Substring(addressType.Length);
+                var address = new Address
+                {
+                    AddressName = addressName,
+                    Zip = addressDto.Zip,
+                    Neighborhood = addressData.Bairro,
+                    AddressType = addressType[0],
+                    Complement = addressDto.Complement,
+                    Number = addressDto.Number,
+                    Fu = addressData.Uf,
+                    City = addressData.Localidade
+                };
+                _context.Address.Add(address);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetAddress", new { id = address.Id }, address);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         // DELETE: api/Addresses/5
