@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Models;
 
-namespace DatabaseService.Data
+namespace DatabaseApi.Data
 {
-    public class DatabaseServiceContext : DbContext
+    public class DatabaseApiContext : DbContext
     {
-        public DatabaseServiceContext (DbContextOptions<DatabaseServiceContext> options)
+        public DatabaseApiContext (DbContextOptions<DatabaseApiContext> options)
             : base(options)
         {
         }

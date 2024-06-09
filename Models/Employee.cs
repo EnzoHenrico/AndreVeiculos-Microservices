@@ -8,6 +8,21 @@ namespace Models
 {
     public class Employee : Person
     {
+        public readonly string Select =
+            " select ([Documnet], [PositionId], [CommissionValue], [Commission], [Name], [BirthDate], [AddressId], [Phone], [Email]) from Employee ";
+
+        public readonly string SelectById =
+            " select ([Documnet], [PositionId], [CommissionValue], [Commission],[Name], [BirthDate], [AddressId], [Phone], [Email]) from Employee where [Document] = @Document";
+
+        public readonly string InsertOne =
+            " insert into Employee values([Documnet], [PositionId], [CommissionValue], [Commission],[Name], [BirthDate], [AddressId], [Phone], [Email]) ";
+
+        public readonly string UpdateById =
+            " update Employee set [@Field] = @Value where [Document] = @Document ";
+
+        public readonly string DeleteById =
+            " delete from Employee where [Document] = @Document ";
+        
         public Position Position { get; set; }
         public Decimal CommissionValue { get; set; }
         public Decimal Commission { get; set; }

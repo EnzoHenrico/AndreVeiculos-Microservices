@@ -9,6 +9,21 @@ namespace Models
 {
     public class Sale
     {
+        public readonly string Select =
+            " select ([id], [CarPlate], [SaleDate], [SaleValue], [CustomerDocument], [EmployeeDocument], [PaymentId]) from Sale ";
+
+        public readonly string SelectById =
+            " select ([id], [CarPlate], [SaleDate], [SaleValue], [CustomerDocument], [EmployeeDocument], [PaymentId]) from Sale where [id] = @id";
+
+        public readonly string InsertOne =
+            " insert into Sale values([id], [CarPlate], [SaleDate], [SaleValue], [CustomerDocument], [EmployeeDocument], [PaymentId]) ";
+
+        public readonly string UpdateById =
+            " update Sale set [@Field] = @Value where [id] = @id ";
+
+        public readonly string DeleteById =
+            " delete from Sale where [id] = @id ";
+        
         public int Id { get; set; }
         public Car Car { get; set; }
         public DateTime SaleDate { get; set; }

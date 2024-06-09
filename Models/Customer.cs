@@ -10,6 +10,21 @@ namespace Models
 {
     public class Customer : Person
     {
+        public readonly string Select =
+            " select ([Documnet], [Income], [PDFDocument],[Name], [BirthDate], [AddressId], [Phone], [Email]) from Customer ";
+
+        public readonly string SelectById =
+            " select ([Documnet], [Income], [PDFDocument],[Name], [BirthDate], [AddressId], [Phone], [Email]) from Customer where [Document] = @Document";
+
+        public readonly string InsertOne =
+            " insert into Customer values([Documnet], [Income], [PDFDocument],[Name], [BirthDate], [AddressId], [Phone], [Email]) ";
+
+        public readonly string UpdateById =
+            " update Customer set [@Field] = @Value where [Document] = @Document ";
+
+        public readonly string DeleteById =
+            " delete from Customer where [Document] = @Document ";
+        
         public Decimal Income { get; set; }
         public string PDFDocument { get; set; }
     }

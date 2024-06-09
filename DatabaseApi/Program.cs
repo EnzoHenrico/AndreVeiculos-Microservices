@@ -1,7 +1,8 @@
+using DatabaseApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using DatabaseService.Data;
-namespace DatabaseService;
+
+namespace DatabaseApi;
 
 public class Program
 {
