@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "coRRLqS4I3U3jiwc+MMlN0wtAKSItx2XTXjecYerRyJRr7+YMTkmnwNMaTdkTBd1YyW1voN24vaPs7lxxfJ2fg==",
+  "dgSpecHash": "Qxv+yDaPlEFlH1ZFP0BJkSN8jdapWTxKfOQHZoQXz4nmh3nYosHDAFSloq3qWLLLOT9gleL6rXtZke9CRO37qA==",
   "success": true,
   "projectFilePath": "C:\\Users\\enzo\\RiderProjects\\ProjetoAndreVeiculos-MicroServices\\Models\\Models.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\enzo\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.30\\microsoft.netcore.app.ref.6.0.30.nupkg.sha512",
+    "C:\\Users\\enzo\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.30\\microsoft.windowsdesktop.app.ref.6.0.30.nupkg.sha512",
+    "C:\\Users\\enzo\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.30\\microsoft.aspnetcore.app.ref.6.0.30.nupkg.sha512"
+  ],
   "logs": []
 }

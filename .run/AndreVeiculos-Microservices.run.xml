@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="AndreVeiculos-Microservices" type="CompoundRunConfigurationType">
+    <toRun name="AddressApi: https" type="LaunchSettings" />
+    <toRun name="CarApi: https" type="LaunchSettings" />
+    <toRun name="CarService: https" type="LaunchSettings" />
+    <toRun name="CostumerApi: https" type="LaunchSettings" />
+    <toRun name="DatabaseService: https" type="LaunchSettings" />
+    <toRun name="EmployeeApi: https" type="LaunchSettings" />
+    <toRun name="PaymentApi: https" type="LaunchSettings" />
+    <toRun name="Purchase: https" type="LaunchSettings" />
+    <toRun name="SaleApi: https" type="LaunchSettings" />
+    <toRun name="ServiceApi: https" type="LaunchSettings" />
+    <method v="2" />
+  </configuration>
+</component>
