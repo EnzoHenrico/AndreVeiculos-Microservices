@@ -10,19 +10,19 @@ namespace Models
 {
     public class Address
     {
-        public readonly string Select =
-            " select ([Id], [AddressName], [Zip], [Neighborhood], [AddressType], [Complement], [Number], [Fu], [City]) from Address ";
+        public static readonly string Select =
+            " select [Id], [AddressName], [Zip], [Neighborhood], [AddressType], [Complement], [Number], [Fu], [City] from Address ";
 
-        public readonly string SelectById =
-            " select ([Id], [AddressName], [Zip], [Neighborhood], [AddressType], [Complement], [Number], [Fu], [City]) from Address where [Id] = @Id";
+        public static readonly string SelectById =
+            " select [Id], [AddressName], [Zip], [Neighborhood], [AddressType], [Complement], [Number], [Fu], [City] from Address where [Id] = @Id ";
 
-        public readonly string InsertOne =
+        public static readonly string InsertOne =
             " insert into Address values(@AddressName, @Zip, @Neighborhood, @AddressType, @Complement, @Number, @Fu, @City) ";
 
-        public readonly string UpdateById =
+        public static readonly string UpdateById =
             " update Address set [AddressName]= @AddressName, [Zip] = @Zip, [Neighborhood] = @Neighborhood, [AddressType] = @AddressType, [Complement] = @Complement, [Number] = @Number, [Fu] = @Fu, [City] = @City where [Id] = @Id ";
 
-        public readonly string DeleteById =
+        public static readonly string DeleteById =
             " delete from Adrress where [Id] = @Id ";
         
         public int Id { get; set; } // API CORREIOS

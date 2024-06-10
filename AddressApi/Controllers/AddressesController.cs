@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AddressApi.Data;
 using DatabaseApi.Data;
+using DatabaseApi.Repositories;
 using Models;
 using Models.DTO;
 using Newtonsoft.Json;
@@ -19,6 +20,7 @@ namespace AddressApi.Controllers
     public class AddressesController : ControllerBase
     {
         private readonly DatabaseApiContext _context;
+        private IStrategy _strategy;
 
         public AddressesController(DatabaseApiContext context)
         {
@@ -30,24 +32,58 @@ namespace AddressApi.Controllers
             BaseAddress = new Uri("https://viacep.com.br/ws/")
         };
 
-
-        // GET: api/Addresses
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Address>>> GetAddress()
+        private void SetStrategy(IStrategy strategy)
         {
-            // Using Dapper
-            
-            // Using ADO.NET
-            
-            return await _context.Address.ToListAsync();
+            _strategy = strategy;
         }
 
-        // GET: api/Addresses/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Address>> GetAddress(int id)
+        // GET: api/Addresses/dapper
+        [HttpGet("{tech}")]
+        public async Task<ActionResult<IEnumerable<Address>>> GetAddress(string tech)
         {
-            var address = await _context.Address.FindAsync(id);
+            List<Address> result;
+            switch (tech)
+            {
+                case "dotnet":
+                    SetStrategy(new DotNetStrategy());
+                    result = _strategy.SelectAll<Address>(Address.Select);
+                    break;
+                case "dapper":
+                    SetStrategy(new DapperStrategy());
+                    result = _strategy.SelectAll<Address>(Address.Select);
+                    break;
+                case "ef":
+                    result = await _context.Address.ToListAsync();
+                    break;
+                default:
+                    return NotFound();
+            }
 
+            return result;
+        }
+
+        // GET: api/Addresses/ef/5
+        [HttpGet("{tech}/{id}")]
+        public async Task<ActionResult<Address>> GetAddress(string tech, int id)
+        {
+            Address? address;
+            var parameter = new Tuple<string, object>("Id", id);
+            switch (tech)
+            {
+                case "dotnet":
+                    SetStrategy(new DotNetStrategy());
+                    address = _strategy.SelectOne<Address>(Address.SelectById, parameter);
+                    break;
+                case "dapper":
+                    SetStrategy(new DapperStrategy());
+                    address = _strategy.SelectOne<Address>(Address.SelectById, parameter);
+                    break;
+                case "ef":
+                    address = await _context.Address.FindAsync(id);
+                    break;
+                default:
+                    return NotFound();
+            }
             if (address == null)
             {
                 return NotFound();
@@ -56,42 +92,51 @@ namespace AddressApi.Controllers
             return address;
         }
 
-        // PUT: api/Addresses/5
+        // PUT: api/Addresses/dotnet/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAddress(int id, Address address)
+        [HttpPut("{tech}/{id}")]
+        public async Task<IActionResult> PutAddress(string tech, int id, Address address)
         {
             if (id != address.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(address).State = EntityState.Modified;
+            switch (tech)
+            {
+                case "dotnet":
+                    SetStrategy(new DotNetStrategy());
+                    _strategy.UpdateOne<Address>(Address.UpdateById, address);
+                    break;
+                case "dapper":
+                    SetStrategy(new DapperStrategy());
+                    _strategy.UpdateOne<Address>(Address.UpdateById, address);
+                    break;
+                case "ef":
+                    _context.Entry(address).State = EntityState.Modified;
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!AddressExists(id)) return NotFound();
+                        throw;
+                    }
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AddressExists(id))
-                {
+                    break;
+                default:
                     return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
             }
-
             return NoContent();
         }
 
-        // POST: api/Addresses
+        // POST: api/Addresses/dapper
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Address>> PostAddress(AddressDTO addressDto)
+        [HttpPost("{tech}")]
+        public async Task<ActionResult<Address>> PostAddress(string tech, AddressDTO addressDto)
         {
+            var address = new Address();
             try
             {
                 var viacepResponse = await viacepClient.GetAsync($"{addressDto.Zip}/json");
@@ -99,42 +144,70 @@ namespace AddressApi.Controllers
                     JsonConvert.DeserializeObject<ViaCepJsonResponse>(await viacepResponse.Content.ReadAsStringAsync());
 
                 var addressType = addressData.Logradouro.Split(" ");
-                var addressName = addressData.Logradouro.Substring(addressType.Length);
-                var address = new Address
-                {
-                    AddressName = addressName,
-                    Zip = addressDto.Zip,
-                    Neighborhood = addressData.Bairro,
-                    AddressType = addressType[0],
-                    Complement = addressDto.Complement,
-                    Number = addressDto.Number,
-                    Fu = addressData.Uf,
-                    City = addressData.Localidade
-                };
-                _context.Address.Add(address);
-                await _context.SaveChangesAsync();
+                var addressName = addressData.Logradouro.Substring(addressType[0].Length + 1);
 
-                return CreatedAtAction("GetAddress", new { id = address.Id }, address);
+                address.AddressName = addressName;
+                address.Zip = addressDto.Zip;
+                address.Neighborhood = addressData.Bairro;
+                address.AddressType = addressType[0];
+                address.Complement = addressDto.Complement;
+                address.Number = addressDto.Number;
+                address.Fu = addressData.Uf;
+                address.City = addressData.Localidade;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("ERROR: " + ex.Message);
                 throw;
             }
+
+            switch (tech)
+            {
+                case "dotnet":
+                    SetStrategy(new DotNetStrategy());
+                    _strategy.InsertOne<Address>(Address.InsertOne, address);
+                    break;
+                case "dapper":
+                    SetStrategy(new DapperStrategy());
+                    _strategy.InsertOne<Address>(Address.InsertOne, address);
+                    break;
+                case "ef":
+                    _context.Address.Add(address);
+                    break;
+                default:
+                    return NotFound();
+            }
+
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetAddress", new { tech, id = address.Id }, address);
         }
 
         // DELETE: api/Addresses/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAddress(int id)
+        [HttpDelete("{tech}/{id}")]
+        public async Task<IActionResult> DeleteAddress(string tech, int id)
         {
+            var parameter = new Tuple<string, object>("Id", id);
             var address = await _context.Address.FindAsync(id);
-            if (address == null)
+
+            if (address == null) return NotFound();
+
+            switch (tech)
             {
-                return NotFound();
+                case "dotnet":
+                    SetStrategy(new DotNetStrategy());
+                    _strategy.DeleteOne(Address.DeleteById, parameter);
+                    break;
+                case "dapper":
+                    SetStrategy(new DapperStrategy());
+                    _strategy.DeleteOne(Address.DeleteById, parameter);
+                    break;
+                case "ef":
+                    _context.Address.Remove(address);
+                    await _context.SaveChangesAsync();
+                    break;
+                default:
+                    return NotFound();
             }
-
-            _context.Address.Remove(address);
-            await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
