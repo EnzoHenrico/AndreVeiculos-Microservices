@@ -1,6 +1,4 @@
-using Microsoft.Data.SqlClient;
-
-namespace DatabaseApi.Services;
+namespace DatabaseApi.Repositories;
 
 public interface IStrategy
 {

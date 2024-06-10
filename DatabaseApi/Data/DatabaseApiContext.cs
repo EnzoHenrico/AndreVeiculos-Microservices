@@ -13,8 +13,8 @@ namespace DatabaseApi.Data
             : base(options)
         {
         }
-        
-        // Create Database to manage all Services
+
+        // Create Database to manage all Repositories
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

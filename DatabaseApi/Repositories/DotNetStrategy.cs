@@ -1,10 +1,7 @@
-using System.Reflection;
-using System.Reflection.Metadata;
 using Dapper;
 using Microsoft.Data.SqlClient;
-using NuGet.Protocol;
 
-namespace DatabaseApi.Services;
+namespace DatabaseApi.Repositories;
 
 public class DotNetStrategy : IStrategy
 {

@@ -1,7 +1,6 @@
-using DatabaseApi.Data;
 using Microsoft.Data.SqlClient;
 
-namespace DatabaseApi.Services;
+namespace DatabaseApi.Repositories;
 
 public class MsSqlDatabase
 {
