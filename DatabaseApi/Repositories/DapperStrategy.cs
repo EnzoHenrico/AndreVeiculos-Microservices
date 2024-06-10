@@ -1,5 +1,7 @@
+using System.Reflection.Metadata;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DatabaseApi.Repositories;
 
@@ -7,9 +9,9 @@ public class DapperStrategy : IStrategy
 {
     private SqlConnection _connection;
 
-    public DapperStrategy(SqlConnection connection)
+    public DapperStrategy()
     {
-        _connection = connection;
+        _connection = new MsSqlDatabase().Connection;
     }
 
     public List<T> SelectAll<T>(string query) where T : new()
@@ -40,14 +42,19 @@ public class DapperStrategy : IStrategy
         return results;
     }
 
-    public T SelectOne<T>(string query, Tuple<string, object> namedParam) where T : new()
+    public T? SelectOne<T>(string query, Tuple<string, object> namedParam) where T : new()
     {
-        T result = new();
-        var (_, param) = namedParam;
+        T? result = new();
+        var (name, value) = namedParam;
         try
         {
+            // Set dynamically the needed parameters
+            var parameters = new DynamicParameters(new Dictionary<string, object>
+            {
+                { name, value }
+            });
             _connection.Open();
-            var data = _connection.QuerySingleOrDefault<T>(query, param);
+            result = _connection.QueryFirstOrDefault<T>(query, parameters);
         }
         catch (SqlException ex)
         {
@@ -67,13 +74,12 @@ public class DapperStrategy : IStrategy
         return result;
     }
 
-    public T InsertOne<T>(string query, T newObject) where T : new()
+    public void InsertOne<T>(string query, T newObject) where T : new()
     {
-        T result = new();
         try
         {
             _connection.Open();
-            var data = _connection.Query<T>(query, newObject);
+            _connection.Query<T>(query, newObject);
         }
         catch (SqlException ex)
         {
@@ -90,17 +96,14 @@ public class DapperStrategy : IStrategy
             _connection.Close();
         }
 
-        return result;
     }
 
-    public bool UpdateOne<T>(string query, T newObject) where T : new()
+    public void UpdateOne<T>(string query, T newObject) where T : new()
     {
-        bool result;
         try
         {
             _connection.Open();
             var data = _connection.Execute(query, newObject);
-            result = true;
         }
         catch (SqlException ex)
         {
@@ -117,18 +120,15 @@ public class DapperStrategy : IStrategy
             _connection.Close();
         }
 
-        return result;
     }
 
-    public bool DeleteOne(string query, Tuple<string, object> namedParam)
+    public void DeleteOne(string query, Tuple<string, object> namedParam)
     {
-        bool result;
         var (_, param) = namedParam;
         try
         {
             _connection.Open();
             var data = _connection.Execute(query, param);
-            result = true;
         }
         catch (SqlException ex)
         {
@@ -145,6 +145,5 @@ public class DapperStrategy : IStrategy
             _connection.Close();
         }
 
-        return result;
     }
 }

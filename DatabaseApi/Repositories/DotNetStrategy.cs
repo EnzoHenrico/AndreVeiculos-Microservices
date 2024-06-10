@@ -7,9 +7,9 @@ public class DotNetStrategy : IStrategy
 {
     private SqlConnection _connection;
 
-    public DotNetStrategy(SqlConnection connection)
+    public DotNetStrategy()
     {
-        _connection = connection;
+        _connection = new MsSqlDatabase().Connection;
     }
 
     public List<T> SelectAll<T>(string query) where T : new()
@@ -58,9 +58,9 @@ public class DotNetStrategy : IStrategy
     }
 
 
-    public T SelectOne<T>(string query, Tuple<string, object> namedParam) where T : new()
+    public T? SelectOne<T>(string query, Tuple<string, object> namedParam) where T : new()
     {
-        T result = new();
+        T? result = new();
         var (paramName, param) = namedParam;
         try
         {
@@ -99,9 +99,8 @@ public class DotNetStrategy : IStrategy
         return result;
     }
 
-    public T InsertOne<T>(string query, T newObject) where T : new()
+    public void InsertOne<T>(string query, T newObject) where T : new()
     {
-        T result = new();
         try
         {
             _connection.Open();
@@ -121,13 +120,10 @@ public class DotNetStrategy : IStrategy
         {
             _connection.Close();
         }
-
-        return result;
     }
 
-    public bool UpdateOne<T>(string query, T newObject) where T : new()
+    public void UpdateOne<T>(string query, T newObject) where T : new()
     {
-        bool result;
         try
         {
             _connection.Open();
@@ -146,7 +142,6 @@ public class DotNetStrategy : IStrategy
             }
 
             cmd.ExecuteNonQuery();
-            result = true;
         }
         catch (SqlException ex)
         {
@@ -163,13 +158,11 @@ public class DotNetStrategy : IStrategy
             _connection.Close();
         }
 
-        return result;
     }
 
 
-    public bool DeleteOne(string query, Tuple<string, object> namedParam)
+    public void DeleteOne(string query, Tuple<string, object> namedParam)
     {
-        bool result;
         var (paramName, param) = namedParam;
         try
         {
@@ -182,7 +175,6 @@ public class DotNetStrategy : IStrategy
             cmd.Parameters.AddWithValue("@" + paramName, param);
             cmd.ExecuteNonQuery();
 
-            result = true;
         }
         catch (SqlException ex)
         {
@@ -199,6 +191,5 @@ public class DotNetStrategy : IStrategy
             _connection.Close();
         }
 
-        return result;
     }
 }
