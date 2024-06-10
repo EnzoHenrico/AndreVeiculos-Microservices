@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DatabaseService.Data;
+using DatabaseApi.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +14,9 @@ namespace EmployeeApi.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly DatabaseServiceContext _context;
+        private readonly DatabaseApiContext _context;
 
-        public EmployeesController(DatabaseServiceContext context)
+        public EmployeesController(DatabaseApiContext context)
         {
             _context = context;
         }

@@ -8,6 +8,21 @@ namespace Models
 {
     public class Pix
     {
+        public readonly string Select =
+            " select ([id], [TypeId], [PixKey]) from Pix ";
+
+        public readonly string SelectById =
+            " select ([id], [TypeId], [PixKey]) from Pix where [id] = @id";
+
+        public readonly string InsertOne =
+            " insert into Pix values([id], [TypeId], [PixKey]) ";
+
+        public readonly string UpdateById =
+            " update Pix set [TypeId] = @TypeId, [PixKey] = @PixKey where [id] = @id ";
+
+        public readonly string DeleteById =
+            " delete from Pix where [id] = @id ";
+        
         public int Id { get; set; }
         public PixType Type { get; set; }
         public string PixKey { get; set; }

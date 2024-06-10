@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using AddressApi.Data;
-using DatabaseService.Data;
+using DatabaseApi.Data;
 
 namespace AddressApi;
 
@@ -10,7 +10,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddDbContext<DatabaseServiceContext>(options =>
+        builder.Services.AddDbContext<DatabaseApiContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("AddressApiContext") ?? throw new InvalidOperationException("Connection string 'AddressApiContext' not found.")));
 
         // Add services to the container.

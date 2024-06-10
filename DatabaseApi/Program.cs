@@ -1,15 +1,16 @@
+using DatabaseApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using DatabaseService.Data;
-namespace DatabaseService;
+
+namespace DatabaseApi;
 
 public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddDbContext<DatabaseServiceContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseServiceContext") ?? throw new InvalidOperationException("Connection string 'DatabaseServiceContext' not found.")));
+        builder.Services.AddDbContext<DatabaseApiContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseApiContext") ?? throw new InvalidOperationException("Connection string 'DatabaseApiContext' not found.")));
 
         // Add services to the container.
 

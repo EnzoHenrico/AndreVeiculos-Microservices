@@ -9,6 +9,21 @@ namespace Models
 {
     public class CarService
     {
+        public readonly string Select =
+            " select ([Id], [CarPlate], [ServiceId]) from CarService ";
+
+        public readonly string SelectById =
+            " select ([Id], [CarPlate], [ServiceId]) from CarService where [Id] = @Id";
+
+        public readonly string InsertOne =
+            " insert into CarService values([Id], [CarPlate], [ServiceId]) ";
+
+        public readonly string UpdateById =
+            " update CarService set [CarPlate] = @CarPlate, [ServiceId] = @ServiceId where [Id] = @Id ";
+
+        public readonly string DeleteById =
+            " delete from CarService where [Id] = @Id ";
+        
         [Key]
         public int Id { get; set; }
         public Car Car { get; set; }

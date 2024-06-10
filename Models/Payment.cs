@@ -8,6 +8,20 @@ namespace Models
 {
     public class Payment
     {
+        public readonly string Select =
+            " select ([id], [CardNumber], [BoletoId], [PixId], [PaymentDate]) from Payment ";
+
+        public readonly string SelectById =
+            " select ([id], [CardNumber], [BoletoId], [PixId], [PaymentDate]) from Payment where [id] = @id";
+
+        public readonly string InsertOne =
+            " insert into Payment values([id], [CardNumber], [BoletoId], [PixId], [PaymentDate]) ";
+
+        public readonly string UpdateById =
+            " update Payment set [CardNumber] = @CardNumber, [BoletoId] = @BoletoId, [PixId] = @PixId, [PaymentDate] = @PaymentDate where [id] = @id ";
+
+        public readonly string DeleteById =
+            " delete from Payment where [id] = @id ";
         public int Id { get; set; }
         public Card Card { get; set; }
         public Boleto Boleto { get; set; }
