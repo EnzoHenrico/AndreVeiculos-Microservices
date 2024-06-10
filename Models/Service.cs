@@ -19,7 +19,7 @@ namespace Models
             " insert into Service values([id], [Description]) ";
 
         public readonly string UpdateById =
-            " update Service set [@Field] = @Value where [id] = @id ";
+            " update Service set [Description] = @Description where [id] = @id ";
 
         public readonly string DeleteById =
             " delete from Service where [id] = @id ";

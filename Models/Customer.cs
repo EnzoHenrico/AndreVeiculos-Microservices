@@ -20,7 +20,7 @@ namespace Models
             " insert into Customer values([Documnet], [Income], [PDFDocument],[Name], [BirthDate], [AddressId], [Phone], [Email]) ";
 
         public readonly string UpdateById =
-            " update Customer set [@Field] = @Value where [Document] = @Document ";
+            " update Customer set [Income] = @Income, [PDFDocument] = @PDFDocument, [Name] = @Name, [BirthDate] = @BirthDate, [AddressId] = @AddressId, [Phone] = @Phone, [Email] = @Email where [Document] = @Document ";
 
         public readonly string DeleteById =
             " delete from Customer where [Document] = @Document ";

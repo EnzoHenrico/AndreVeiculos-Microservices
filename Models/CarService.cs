@@ -19,7 +19,7 @@ namespace Models
             " insert into CarService values([Id], [CarPlate], [ServiceId]) ";
 
         public readonly string UpdateById =
-            " update CarService set [@Field] = @Value where [Id] = @Id ";
+            " update CarService set [CarPlate] = @CarPlate, [ServiceId] = @ServiceId where [Id] = @Id ";
 
         public readonly string DeleteById =
             " delete from CarService where [Id] = @Id ";

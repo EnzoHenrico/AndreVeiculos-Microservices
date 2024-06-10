@@ -20,7 +20,7 @@ namespace Models
             " insert into Address values(@AddressName, @Zip, @Neighborhood, @AddressType, @Complement, @Number, @Fu, @City) ";
 
         public readonly string UpdateById =
-            " update Address set [@Field] = @Value where [Id] = @Id ";
+            " update Address set [AddressName]= @AddressName, [Zip] = @Zip, [Neighborhood] = @Neighborhood, [AddressType] = @AddressType, [Complement] = @Complement, [Number] = @Number, [Fu] = @Fu, [City] = @City where [Id] = @Id ";
 
         public readonly string DeleteById =
             " delete from Adrress where [Id] = @Id ";

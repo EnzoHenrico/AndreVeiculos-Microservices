@@ -14,7 +14,7 @@ namespace Models
             " insert into Car values([Plate], [Name], [YearModel], [YearProduction], [Color], [Sold]) ";
 
         public readonly string UpdateById =
-            " update Car set [@Field] = @Value where [Plate] = @Plate ";
+            " update Car set [Name] = @Name, [YearModel] = @YearModel, [YearProduction] = @YearProduction, [Color] = @Color, [Sold] = @Sold where [Plate] = @Plate ";
 
         public readonly string DeleteById =
             " delete from Car where [Plate] = @Plate ";

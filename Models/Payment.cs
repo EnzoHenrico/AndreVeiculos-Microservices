@@ -18,7 +18,7 @@ namespace Models
             " insert into Payment values([id], [CardNumber], [BoletoId], [PixId], [PaymentDate]) ";
 
         public readonly string UpdateById =
-            " update Payment set [@Field] = @Value where [id] = @id ";
+            " update Payment set [CardNumber] = @CardNumber, [BoletoId] = @BoletoId, [PixId] = @PixId, [PaymentDate] = @PaymentDate where [id] = @id ";
 
         public readonly string DeleteById =
             " delete from Payment where [id] = @id ";

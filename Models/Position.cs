@@ -18,7 +18,7 @@ namespace Models
             " insert into Position values([id], [Description]) ";
 
         public readonly string UpdateById =
-            " update Position set [@Field] = @Value where [id] = @id ";
+            " update Position set [Description] = @Description where [id] = @id ";
 
         public readonly string DeleteById =
             " delete from Position where [id] = @id ";

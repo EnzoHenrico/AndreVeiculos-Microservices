@@ -18,7 +18,7 @@ namespace Models
             " insert into Pix values([id], [TypeId], [PixKey]) ";
 
         public readonly string UpdateById =
-            " update Pix set [@Field] = @Value where [id] = @id ";
+            " update Pix set [TypeId] = @TypeId, [PixKey] = @PixKey where [id] = @id ";
 
         public readonly string DeleteById =
             " delete from Pix where [id] = @id ";

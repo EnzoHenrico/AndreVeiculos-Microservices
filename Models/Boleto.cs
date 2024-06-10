@@ -18,7 +18,7 @@ namespace Models
             " insert into Boleto values([Id], [Number], [DueDate]) ";
 
         public readonly string UpdateById =
-            " update Boleto set [@Field] = @Value where [Id] = @Id ";
+            " update Boleto set [Id] = @Id, [Number] = @Number, [DueDate] = @DueDate where [Id] = @Id ";
 
         public readonly string DeleteById =
             " delete from Boleto where [Id] = @Id ";

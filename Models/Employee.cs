@@ -18,7 +18,7 @@ namespace Models
             " insert into Employee values([Documnet], [PositionId], [CommissionValue], [Commission],[Name], [BirthDate], [AddressId], [Phone], [Email]) ";
 
         public readonly string UpdateById =
-            " update Employee set [@Field] = @Value where [Document] = @Document ";
+            " update Employee set [PositionId] = @PositionId, [CommissionValue] = @CommissionValue, [Commission] = @Commission,[Name] = @Name, [BirthDate] = @BirthDate, [AddressId] = @AddressId, [Phone] = @Phone, [Email] = @Email where [Document] = @Document ";
 
         public readonly string DeleteById =
             " delete from Employee where [Document] = @Document ";

@@ -20,7 +20,7 @@ namespace Models
             " insert into Card values([CardNumber], [SecurityCold], [DueDate], [CardName]) ";
 
         public readonly string UpdateById =
-            " update Card set [@Field] = @Value where [CardNumber] = @CardNumber ";
+            " update Card set [SecurityCold] = @SecurityCold, [DueDate] = @DueDate, [CardName] = @CardName where [CardNumber] = @CardNumber ";
 
         public readonly string DeleteById =
             " delete from Card where [CardNumber] = @CardNumber ";

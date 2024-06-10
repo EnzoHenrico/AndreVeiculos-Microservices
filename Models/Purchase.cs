@@ -19,7 +19,7 @@ namespace Models
             " insert into Purchase values([id], [CarPlate], [Price], [PurchaseDate]) ";
 
         public readonly string UpdateById =
-            " update Purchase set [@Field] = @Value where [id] = @id ";
+            " update Purchase set [CarPlate] = @CarPlate, [Price] = @Price, [PurchaseDate] = @PurchaseDate where [id] = @id ";
 
         public readonly string DeleteById =
             " delete from Purchase where [id] = @id ";
